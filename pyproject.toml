@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pywaylandauto"
+version = "0.1.0"
+description = "Wayland keyboard/mouse input injection via the XDG RemoteDesktop portal, with a daemon that caches the authorization restore token"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dbus-python>=1.4.0",
+    "PyGObject>=3.50",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+pywaylandauto = "pywaylandauto.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

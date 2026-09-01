@@ -1,3 +1,4 @@
+import logging
 import os
 import socket
 import struct
@@ -88,4 +89,21 @@ def test_sync_roundtrip_against_socketpair():
     conn = WaylandConnection(a.detach())
     conn.sync()
     assert conn.display_id == 1
+    a.close(); b.close()
+
+
+def test_seat_opcode_order_matches_wayland_xml(caplog):
+    """wayland.xml wl_seat declares get_pointer (0), get_keyboard (1),
+    get_touch (2), release (3)."""
+    assert w.SEAT_REQ["get_pointer"][0] == 0
+    assert w.SEAT_REQ["get_keyboard"][0] == 1
+    assert w.SEAT_REQ["get_touch"][0] == 2
+    assert w.SEAT_REQ["release"][0] == 3
+    # unknown events are skipped (never raised) and logged at debug
+    a, b = socket.socketpair()
+    conn = w.WaylandConnection(a.detach())
+    b.sendall(w.pack_message(99, 42, "u", (1,)))  # unregistered object, unknown opcode
+    with caplog.at_level(logging.DEBUG, logger="pywaylandauto.backends.wayland"):
+        conn.pump()
+    assert any("ignoring Wayland event" in m for m in caplog.messages)
     a.close(); b.close()

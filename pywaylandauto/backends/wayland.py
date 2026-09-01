@@ -11,10 +11,13 @@ Wire format (wayland.xml, native byte order):
 Unknown events are skipped by header length (safe: every message is framed).
 """
 
+import logging
 import os
 import socket
 import struct
 import time
+
+log = logging.getLogger(__name__)
 
 HEADER = struct.Struct("=II")
 
@@ -24,7 +27,7 @@ DISPLAY_EVT = {"error": (0, "ous"), "delete_id": (1, "u")}
 REGISTRY_REQ = {"bind": (0, "usun")}
 REGISTRY_EVT = {"global": (0, "usu"), "global_remove": (1, "u")}
 CALLBACK_EVT = {"done": (0, "u")}
-SEAT_REQ = {"get_keyboard": (0, "n"), "get_pointer": (1, "n"),
+SEAT_REQ = {"get_pointer": (0, "n"), "get_keyboard": (1, "n"),
             "get_touch": (2, "n"), "release": (3, "")}
 SEAT_EVT = {"capabilities": (0, "u"), "name": (1, "s")}
 KEYBOARD_EVT = {"keymap": (0, "uhu")}  # enter/leave/key/modifiers: unhandled -> skipped
@@ -245,6 +248,7 @@ class WaylandConnection:
                 name, sig = evt_name, evt_sig
                 break
         if name is None:
+            log.debug("ignoring Wayland event iface=%s opcode=%d", iface, opcode)
             return  # unknown/unregistered event — framed, safe to skip
         args, _ = unpack_args(sig, payload, 0, self._pending_fds)
         handler = getattr(self, f"_on_{iface}_{name}", None)

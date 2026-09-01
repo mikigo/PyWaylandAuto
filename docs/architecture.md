@@ -6,22 +6,22 @@
 ## 1. 文件树
 
 ```
-src/pywaylandauto/
-├── __init__.py            # __version__
-├── __main__.py            # python -m pywaylandauto → cli.main()
-├── cli.py                 # 子命令解析;权限弹窗轮询;chord 分解;daemon 托管
-├── client.py              # Client: socket 客户端 + JSON 协议 + auto-spawn
-├── protocol.py            # 帧编码/校验、Request/Response、错误码(纯 stdlib)
-├── daemon.py              # Daemon(GLib 循环、socket 服务、分发)+ SessionManager 职责
-├── token_cache.py         # TokenCache: load/save/revoke(原子写 0600/0700)
-├── monitors.py            # mutter DisplayConfig → 逻辑布局 bbox
-├── keysyms.py             # X11 keysym 名称表(Latin-1/Unicode/hex)
-└── backends/
-    ├── base.py            # Backend ABC、CoordinateTranslator、类型化错误、按钮码
-    ├── portal.py          # PortalClient(D-Bus 胶水) + PortalSession(状态机/双传输)
-    ├── eis.py             # EisClient: EIS 线协议客户端(socket/struct 纯 stdlib)
-    ├── eis_messages.py    # 线协议编解码 + opcode 表(照 protocol.xml 1.5.0)
-    └── xkb.py             # xkb_keymap 文本解析 + US evdev 回退表
+pywaylandauto/
+  ├── __init__.py          # __version__
+  ├── __main__.py          # python -m pywaylandauto → cli.main()
+  ├── cli.py               # 子命令解析;权限弹窗轮询;chord 分解;daemon 托管
+  ├── client.py            # Client: socket 客户端 + JSON 协议 + auto-spawn
+  ├── protocol.py          # 帧编码/校验、Request/Response、错误码(纯 stdlib)
+  ├── daemon.py            # Daemon(GLib 循环、socket 服务、分发)+ SessionManager 职责
+  ├── token_cache.py       # TokenCache: load/save/revoke(原子写 0600/0700)
+  ├── monitors.py          # mutter DisplayConfig → 逻辑布局 bbox
+  ├── keysyms.py           # X11 keysym 名称表(Latin-1/Unicode/hex)
+  └── backends/
+      ├── base.py          # Backend ABC、CoordinateTranslator、类型化错误、按钮码
+      ├── portal.py        # PortalClient(D-Bus 胶水) + PortalSession(状态机/双传输)
+      ├── eis.py           # EisClient: EIS 线协议客户端(socket/struct 纯 stdlib)
+      ├── eis_messages.py  # 线协议编解码 + opcode 表(照 protocol.xml 1.5.0)
+      └── xkb.py           # xkb_keymap 文本解析 + US evdev 回退表
 ```
 
 ## 2. 数据流(一次 `pywaylandauto click`)

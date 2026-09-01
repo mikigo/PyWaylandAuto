@@ -20,7 +20,7 @@ dev = ["pytest>=8.0"]
 pywaylandauto = "pywaylandauto.cli:main"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+include = ["pywaylandauto*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

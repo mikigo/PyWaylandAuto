@@ -20,7 +20,7 @@ HEADER = struct.Struct("=II")
 
 # interface -> request table: name -> (opcode, signature)
 DISPLAY_REQ = {"sync": (0, "n"), "get_registry": (1, "n")}
-DISPLAY_EVT = {"error": (0, "ousu"), "delete_id": (1, "u")}
+DISPLAY_EVT = {"error": (0, "ous"), "delete_id": (1, "u")}
 REGISTRY_REQ = {"bind": (0, "usun")}
 REGISTRY_EVT = {"global": (0, "usu"), "global_remove": (1, "u")}
 CALLBACK_EVT = {"done": (0, "u")}
